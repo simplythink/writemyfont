@@ -12,6 +12,7 @@
 		<select id="listSelect"></select>
 		<span class="butt" id="canvasListButton">👓</span>
 		<span class="butt" id="findButton">🔍</span>
+		<span class="butt" id="customListManageButton" title="ユーザー文字リストの管理">📋</span>
     </div>
 
     <div id="demo-container">
@@ -58,6 +59,26 @@
 			<span id="closeListupButton" class="close">×</span>
 			<h2>グリフ一覧</h2>
 			<div id="listup-body"></div>
+		</div>
+	</div>
+
+	<div id="customlist-container" class="dialog">
+		<div class="dialog-body">
+			<span id="closeCustomlistButton" class="close">×</span>
+			<h2 id="customlist-dialog-title">ユーザー文字リスト</h2>
+			<span class="note" id="customlist-dialog-note">プレーンテキストを読み込むと出現順で重複を除きます。glist/text_to_custom_list.rb が出力した uniXXXX 名やカンマ区切りにも対応します。</span>
+			<h3>インポート</h3>
+			<input type="file" id="importCustomListFile" accept=".txt,text/plain" />
+			<p class="note">
+				<label><input type="radio" name="importCustomMode" value="merge" checked /> <span id="label-import-merge">既存リストにマージ（重複は追加しない）</span></label><br />
+				<label><input type="radio" name="importCustomMode" value="replace" /> <span id="label-import-replace">既存リストを置き換え</span></label>
+			</p>
+			<h3>エクスポート</h3>
+			<button type="button" id="exportCustomListButton">ユーザー文字リストをダウンロード</button>
+			<h3>編集</h3>
+			<button type="button" id="removeCurrentCustomButton">現在の文字をリストから外す</button>
+			<button type="button" id="clearCustomListButton">ユーザー文字リストを全削除</button>
+			<p class="dummy"></p>
 		</div>
 	</div>
 
@@ -199,6 +220,19 @@
 			settingsTitle: 'フォント設定',
 			inAppNotice: 'アプリの組み込みブラウザを利用しているようです。\nシステムブラウザで開くことがおすすめです。',
 			customList: 'ユーザー文字リスト',
+			customListDialogTitle: 'ユーザー文字リストの管理',
+			customListDialogNote: 'プレーンテキストを読み込むと出現順で重複を除きます。glist/text_to_custom_list.rb が出力した uniXXXX 名やカンマ区切りにも対応します。',
+			labelImportMerge: '既存リストにマージ（重複は追加しない）',
+			labelImportReplace: '既存リストを置き換え',
+			exportCustomListButton: 'ユーザー文字リストをダウンロード',
+			removeCurrentCustomButton: '現在の文字をリストから外す',
+			clearCustomListButton: 'ユーザー文字リストを全削除',
+			customListImportDone: 'インポートしました。',
+			customListExportEmpty: 'ユーザー文字リストがありません。',
+			customListNotOnCustom: '範囲を「ユーザー文字リスト」に切り替えてください。',
+			removeCurrentCustomConfirm: 'この文字をユーザー文字リストから外しますか？',
+			clearCustomListConfirm: 'ユーザー文字リストをすべて削除しますか？（書いたデータのバックアップは別途「データをDL」で保存していない限り残ります。）',
+			customListCleared: 'ユーザー文字リストを削除しました。'
 		};
 	</script>
 

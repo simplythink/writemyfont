@@ -12,6 +12,7 @@
 		<select id="listSelect"></select>
 		<span class="butt" id="canvasListButton">👓</span>
 		<span class="butt" id="findButton">🔍</span>
+		<span class="butt" id="customListManageButton" title="使用者字表管理">📋</span>
     </div>
 
     <div id="demo-container">
@@ -58,6 +59,26 @@
 			<span id="closeListupButton" class="close">×</span>
 			<h2>字符列表</h2>
 			<div id="listup-body"></div>
+		</div>
+	</div>
+
+	<div id="customlist-container" class="dialog">
+		<div class="dialog-body">
+			<span id="closeCustomlistButton" class="close">×</span>
+			<h2 id="customlist-dialog-title">使用者字表管理</h2>
+			<span class="note" id="customlist-dialog-note">可從純文字檔匯入（整篇內容會拆成單字並去重），或匯入由 glist/text_to_custom_list.rb 產生的 uniXXXX／逗號分隔檔。</span>
+			<h3>匯入字表</h3>
+			<input type="file" id="importCustomListFile" accept=".txt,text/plain" />
+			<p class="note">
+				<label><input type="radio" name="importCustomMode" value="merge" checked /> <span id="label-import-merge">合併到現有清單（略過重複）</span></label><br />
+				<label><input type="radio" name="importCustomMode" value="replace" /> <span id="label-import-replace">取代現有清單</span></label>
+			</p>
+			<h3>匯出字表</h3>
+			<button type="button" id="exportCustomListButton">下載目前使用者字表</button>
+			<h3>編輯清單</h3>
+			<button type="button" id="removeCurrentCustomButton">從清單移除目前字符</button>
+			<button type="button" id="clearCustomListButton">清空整份使用者字表</button>
+			<p class="dummy"></p>
 		</div>
 	</div>
 
@@ -206,7 +227,20 @@
 			welcomeTitle: '歡迎使用手寫字型產生器！',
 			settingsTitle: '字型設定',
 			inAppNotice: '請使用裝置瀏覽器開啟以獲得最佳使用體驗。',
-			customList: '使用者字表'
+			customList: '使用者字表',
+			customListDialogTitle: '使用者字表管理',
+			customListDialogNote: '可從純文字檔匯入（整篇內容會拆成單字並去重），或匯入由 glist/text_to_custom_list.rb 產生的 uniXXXX／逗號分隔檔。',
+			labelImportMerge: '合併到現有清單（略過重複）',
+			labelImportReplace: '取代現有清單',
+			exportCustomListButton: '下載目前使用者字表',
+			removeCurrentCustomButton: '從清單移除目前字符',
+			clearCustomListButton: '清空整份使用者字表',
+			customListImportDone: '匯入完成。',
+			customListExportEmpty: '目前沒有使用者字表可匯出。',
+			customListNotOnCustom: '請先將字表切換到「使用者字表」。',
+			removeCurrentCustomConfirm: '要從使用者字表移除這個字符嗎？',
+			clearCustomListConfirm: '確定要清空整份使用者字表嗎？（已寫過的筆跡仍保留在備份資料中，除非您另行清除。）',
+			customListCleared: '已清空使用者字表。'
 		};
 	</script>
 

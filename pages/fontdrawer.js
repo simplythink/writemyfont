@@ -1,4 +1,4 @@
-const version = '0.596'; // 版本號
+const version = '0.597'; // 版本號
 const upm = 1000;
 const userAgent = navigator.userAgent.toLowerCase();
 const pressureDelta = 1.3;		// 筆壓模式跟一般模式的筆寬差異倍數 (舊筆壓模式用)
@@ -292,6 +292,85 @@ function initListSelect($listSelect) {
 	}
 }
 
+function normalizeGlyphName(gn) {
+	gn = (gn || '').trim();
+	if (!gn) return null;
+	var m = gn.match(/^uni([0-9a-fA-F]{4})$/i);
+	if (m) return 'uni' + m[1].toUpperCase();
+	m = gn.match(/^u([0-9a-fA-F]{5,6})$/i);
+	if (m) return 'u' + m[1].toUpperCase();
+	return null;
+}
+
+function codePointToGlyphName(cp) {
+	var hex = cp.toString(16).toUpperCase();
+	return hex.length <= 4 ? 'uni' + hex.padStart(4, '0') : 'u' + hex;
+}
+
+function addGlyphToMapIfNeeded(gn) {
+	if (glyphMap[gn]) return true;
+	var m = gn.match(/^uni([0-9A-Fa-f]{4})$/i) || gn.match(/^u([0-9A-Fa-f]{5,6})$/i);
+	if (!m) return false;
+	var cp = parseInt(m[1], 16);
+	try {
+		glyphMap[gn] = { c: String.fromCodePoint(cp), w: 'F' };
+		return true;
+	} catch (_e) {
+		return false;
+	}
+}
+
+function dedupeGlyphNamesOrdered(names) {
+	var seen = {};
+	var out = [];
+	for (var i = 0; i < names.length; i++) {
+		var g = names[i];
+		if (!seen[g]) {
+			seen[g] = true;
+			out.push(g);
+		}
+	}
+	return out;
+}
+
+function textToGlyphNamesFromPlainText(text) {
+	var skip = { 0x20: 1, 0x3000: 1, 0xA0: 1, 0x9: 1, 0xA: 1, 0xD: 1 };
+	var seen = {};
+	var out = [];
+	for (var i = 0; i < text.length; i++) {
+		var cp = text.codePointAt(i);
+		if (cp > 0xffff) i++;
+		if (skip[cp]) continue;
+		var gn = codePointToGlyphName(cp);
+		if (seen[gn]) continue;
+		seen[gn] = true;
+		out.push(gn);
+	}
+	return out;
+}
+
+function parseCustomListImportText(text) {
+	var noComments = text.split(/\r?\n/).map(function (line) {
+		var hash = line.indexOf('#');
+		return hash >= 0 ? line.slice(0, hash) : line;
+	}).join('\n');
+	var tokens = noComments.split(/[\s,]+/).map(function (t) { return t.trim(); }).filter(Boolean);
+	var allGlyphs = tokens.length > 0 && tokens.every(function (t) { return !!normalizeGlyphName(t); });
+	if (allGlyphs) {
+		var parsed = [];
+		var seen = {};
+		for (var j = 0; j < tokens.length; j++) {
+			var gn = normalizeGlyphName(tokens[j]);
+			if (!seen[gn]) {
+				seen[gn] = true;
+				parsed.push(gn);
+			}
+		}
+		return parsed;
+	}
+	return textToGlyphNamesFromPlainText(noComments);
+}
+
 async function createFont(glyphs, gidMap, verts, ccmps) {
 	let testNo = '';
 	if (settings.saveAsTester) {
@@ -373,6 +452,15 @@ $(document).ready(async function () {
         console.log('IndexedDB 起動完成');
 		settings = await loadSettings();
 		initListSelect($listSelect);
+		if (fdrawer.customListDialogTitle) {
+			$('#customlist-dialog-title').text(fdrawer.customListDialogTitle);
+			$('#customlist-dialog-note').text(fdrawer.customListDialogNote);
+			$('#label-import-merge').text(fdrawer.labelImportMerge);
+			$('#label-import-replace').text(fdrawer.labelImportReplace);
+			$('#exportCustomListButton').text(fdrawer.exportCustomListButton);
+			$('#removeCurrentCustomButton').text(fdrawer.removeCurrentCustomButton);
+			$('#clearCustomListButton').text(fdrawer.clearCustomListButton);
+		}
 		initCanvas(canvas);	// 初始化九宮格底圖
 		$('#canvas-container').toggleClass('smallmode', settings.smallMode);
 
@@ -543,6 +631,119 @@ $(document).ready(async function () {
 			}
 		}
     });
+
+	async function applyImportedCustomNames(parsedNames, mode) {
+		var valid = [];
+		for (var i = 0; i < parsedNames.length; i++) {
+			var gn = normalizeGlyphName(parsedNames[i]) || parsedNames[i];
+			if (!addGlyphToMapIfNeeded(gn)) continue;
+			valid.push(gn);
+		}
+		valid = dedupeGlyphNamesOrdered(valid);
+
+		if (mode === 'merge') {
+			var base = glyphList[fdrawer.customList] ? glyphList[fdrawer.customList].slice() : [];
+			var seen = {};
+			var merged = [];
+			for (var a = 0; a < base.length; a++) {
+				seen[base[a]] = true;
+				merged.push(base[a]);
+			}
+			for (var b = 0; b < valid.length; b++) {
+				if (!seen[valid[b]]) {
+					seen[valid[b]] = true;
+					merged.push(valid[b]);
+				}
+			}
+			glyphList[fdrawer.customList] = merged;
+		} else {
+			glyphList[fdrawer.customList] = valid;
+		}
+
+		if (!glyphList[fdrawer.customList] || glyphList[fdrawer.customList].length === 0) {
+			delete glyphList[fdrawer.customList];
+			await updateSetting('customGlyphs', '');
+			initListSelect($listSelect);
+			$listSelect.prop('selectedIndex', 0).trigger('change');
+		} else {
+			await updateSetting('customGlyphs', glyphList[fdrawer.customList].join(','));
+			initListSelect($listSelect);
+			$listSelect.val(fdrawer.customList);
+			nowList = glyphList[fdrawer.customList];
+			setGlyph(0);
+		}
+	}
+
+	$('#customListManageButton').on('click', function () {
+		$('#customlist-container').show();
+	});
+	$('#closeCustomlistButton').on('click', function () {
+		$('#customlist-container').hide();
+		$('#importCustomListFile').val('');
+	});
+	$('#importCustomListFile').on('change', function () {
+		var file = this.files[0];
+		if (!file) return;
+		var mode = $('input[name="importCustomMode"]:checked').val();
+		var reader = new FileReader();
+		reader.onload = async function (e) {
+			try {
+				var parsed = parseCustomListImportText(e.target.result);
+				await applyImportedCustomNames(parsed, mode);
+				alert(fdrawer.customListImportDone);
+			} catch (err) {
+				console.error(err);
+				alert(String(err));
+			}
+			$('#importCustomListFile').val('');
+		};
+		reader.readAsText(file);
+	});
+	$('#exportCustomListButton').on('click', async function () {
+		var list = glyphList[fdrawer.customList];
+		if (!list || !list.length) {
+			alert(fdrawer.customListExportEmpty);
+			return;
+		}
+		var lines = ['# writemyfont custom glyph list', '# one glyph name per line'];
+		for (var li = 0; li < list.length; li++) lines.push(list[li]);
+		lines.push('');
+		lines.push('# comma-separated (customGlyphs)');
+		lines.push(list.join(','));
+		var blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+		var link = document.createElement('a');
+		link.download = (settings.fontNameEng || 'writemyfont') + '-custom-glyphs.txt';
+		link.href = window.URL.createObjectURL(blob);
+		link.click();
+		window.URL.revokeObjectURL(link.href);
+	});
+	$('#removeCurrentCustomButton').on('click', async function () {
+		if ($listSelect.val() !== fdrawer.customList) {
+			alert(fdrawer.customListNotOnCustom);
+			return;
+		}
+		var list = glyphList[fdrawer.customList];
+		if (!list || !list.length) return;
+		if (!confirm(fdrawer.removeCurrentCustomConfirm)) return;
+		list.splice(nowGlyphIndex, 1);
+		if (list.length === 0) {
+			delete glyphList[fdrawer.customList];
+			await updateSetting('customGlyphs', '');
+			initListSelect($listSelect);
+			$listSelect.prop('selectedIndex', 0).trigger('change');
+		} else {
+			await updateSetting('customGlyphs', list.join(','));
+			setGlyph(Math.min(nowGlyphIndex, list.length - 1));
+		}
+	});
+	$('#clearCustomListButton').on('click', async function () {
+		if (!confirm(fdrawer.clearCustomListConfirm)) return;
+		delete glyphList[fdrawer.customList];
+		await updateSetting('customGlyphs', '');
+		initListSelect($listSelect);
+		$listSelect.prop('selectedIndex', 0).trigger('change');
+		alert(fdrawer.customListCleared);
+	});
 
     // 更新筆寬
     $('#lineWidthSlider').on('input', function () {
