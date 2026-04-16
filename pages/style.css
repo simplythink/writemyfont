@@ -8,7 +8,8 @@ body {
 	background: linear-gradient(180deg, #f7f8fb 0%, #eef1f6 100%);
 	font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang TC", "PingFang SC", "Hiragino Sans", sans-serif;
 	color: #1c1c1e;
-	overflow: hidden;
+	overflow-x: hidden;
+	overflow-y: auto;
 	user-select: none;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -71,13 +72,17 @@ span.butt {
 @font-face { font-family: LessonOne; src: url('LessonOne-Regular.woff'); font-weight: normal; font-style: normal; }
 @font-face { font-family: GenYoExt; src: url('GenYoExt3-R.woff'); font-weight: normal; font-style: normal; }
 
-#demo-container { margin-bottom: 10px; width: 360px; position: relative; color: #0a84ff; text-align: center; height: 5.9em; margin: 14px auto 10px auto }
-#demo-container span { display: block; line-height: 1.2; }
+#demo-container { margin-bottom: 10px; width: 360px; position: relative; color: #0a84ff; text-align: center; min-height: 5.9em; margin: 14px auto 10px auto }
+#demo-container > span { display: block; line-height: 1.2; }
 #glyphName { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #8e8e93 }
-#demo-container #charSeq { font-size: 2.6em; line-height: 1; margin: 0 auto 10px auto; width: 1.1em; font-family: GenYoExt, LessonOne, sans-serif; border: 1px solid rgba(60, 60, 67, 0.16); border-radius: 14px; background: rgba(255, 255, 255, 0.82); box-shadow: none; }
+#demo-container .char-nav-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; margin-bottom: 10px; width: 100%; }
+#demo-container .char-nav-row #prevButton { justify-self: start; }
+#demo-container .char-nav-row #charSeq { justify-self: center; }
+#demo-container .char-nav-row #nextButton { justify-self: end; }
+#demo-container #charSeq { display: block; font-size: 2.6em; line-height: 1; margin: 0; width: 1.1em; font-family: GenYoExt, LessonOne, sans-serif; border: 1px solid rgba(60, 60, 67, 0.16); border-radius: 14px; background: rgba(255, 255, 255, 0.82); box-shadow: none; }
 #demo-container #charSeq.vert { writing-mode: vertical-rl; text-orientation: mixed; font-feature-settings: "vert" }
-#prevButton { font-size: 2.5em; position: absolute; left: 0; top: 0.1em; border: 0; background: transparent; box-shadow: none; color: #0a84ff; min-width: auto; min-height: auto; }
-#nextButton { font-size: 2.5em; position: absolute; right: 0; top: 0.1em; border: 0; background: transparent; box-shadow: none; color: #0a84ff; min-width: auto; min-height: auto; }
+#prevButton { font-size: 2.5em; border: 0; background: transparent; box-shadow: none; color: #0a84ff; min-width: auto; min-height: auto; }
+#nextButton { font-size: 2.5em; border: 0; background: transparent; box-shadow: none; color: #0a84ff; min-width: auto; min-height: auto; }
 
 #canvas-container { position: relative; width: 360px; height: 360px; border: 1px solid rgba(60, 60, 67, 0.16); border-radius: 24px; background-color: #fff; overflow: hidden; box-shadow: none; }
 canvas { position: absolute; top: 0; left: 0; width: 360px; height: 360px; touch-action: none; }

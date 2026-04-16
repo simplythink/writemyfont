@@ -16,10 +16,12 @@
 
     <div id="demo-container">
 		<span id="glyphName"></span>
-		<span id="charSeq"></span>
+		<div class="char-nav-row">
+			<span class="butt" id="prevButton" aria-label="上一個"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"></path></svg></span>
+			<span id="charSeq"></span>
+			<span class="butt" id="nextButton" aria-label="下一個"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6"></path></svg></span>
+		</div>
 		<span id="glyphNote"></span>
-		<span class="butt" id="prevButton" aria-label="上一個"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"></path></svg></span>
-		<span class="butt" id="nextButton" aria-label="下一個"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6"></path></svg></span>
     </div>
 	<div id="canvas-container">
         <canvas id="gridCanvas" width="500" height="500"></canvas>
