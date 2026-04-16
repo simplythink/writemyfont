@@ -10,17 +10,17 @@
 	<div id="list-container">
 		<label for="listSelect">字表：</label>
 		<select id="listSelect"></select>
-		<span class="butt" id="canvasListButton">👓</span>
-		<span class="butt" id="findButton">🔍</span>
-		<span class="butt" id="customListManageButton" title="使用者字表管理">📋</span>
+		<span class="butt" id="canvasListButton" aria-label="字表預覽"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6Z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
+		<span class="butt" id="findButton" aria-label="搜尋字"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"></circle><path d="m20 20-4.2-4.2"></path></svg></span>
+		<span class="butt" id="customListManageButton" title="使用者字表管理" aria-label="使用者字表管理"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="2"></rect><path d="M8 9h8M8 12h8M8 15h5"></path></svg></span>
     </div>
 
     <div id="demo-container">
 		<span id="glyphName"></span>
 		<span id="charSeq"></span>
 		<span id="glyphNote"></span>
-		<span class="butt" id="prevButton">👈</span>
-		<span class="butt" id="nextButton">👉</span>
+		<span class="butt" id="prevButton" aria-label="上一個"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"></path></svg></span>
+		<span class="butt" id="nextButton" aria-label="下一個"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6"></path></svg></span>
     </div>
 	<div id="canvas-container">
         <canvas id="gridCanvas" width="500" height="500"></canvas>
@@ -29,25 +29,25 @@
 
 	<div id="slider-container">
 		<div id="brushSelector"></div><div id="pressureButton" class="off"></div>
-		<span class="butt use" id="penButton">🖌️</span><span class="butt" id="eraserButton">🚿</span>
+		<span class="butt use" id="penButton" aria-label="畫筆"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.85 2.85 0 0 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3Z"></path><path d="m15 5 4 4"></path></svg></span><span class="butt" id="eraserButton" aria-label="橡皮擦"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21h16"></path><path d="m7 18.5-2.8-2.8c-.8-.8-.8-2.1 0-2.9l9.2-9.2c.8-.8 2.1-.8 2.9 0l2.8 2.8c.8.8.8 2.1 0 2.9l-9.2 9.2c-.8.8-2.1.8-2.9 0Z"></path></svg></span>
 		<input id="lineWidthSlider" type="range" min="2" max="36" value="12" />
 		<label for="lineWidthSlider"><span id="lineWidthValue">12</span></label>
 	</div>
 
 	<div id="button-container">
-		<span class="butt" id="clearButton">🚮</span>
-		<span class="butt" id="moveLeftButton">⬅️</span>
-		<span class="butt" id="moveRightButton">➡️</span>
-		<span class="butt" id="moveUpButton">⬆️</span>
-		<span class="butt" id="moveDownButton">⬇️</span>
-		<span class="butt" id="undoButton">↩️</span>
+		<span class="butt" id="clearButton" aria-label="清除"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16"></path><path d="M10 11v6M14 11v6"></path><path d="M6 7l1 13h10l1-13"></path><path d="M9 7V4h6v3"></path></svg></span>
+		<span class="butt" id="moveLeftButton" aria-label="左移"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5"></path><path d="m11 6-6 6 6 6"></path></svg></span>
+		<span class="butt" id="moveRightButton" aria-label="右移"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></span>
+		<span class="butt" id="moveUpButton" aria-label="上移"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5"></path><path d="m6 11 6-6 6 6"></path></svg></span>
+		<span class="butt" id="moveDownButton" aria-label="下移"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="m6 13 6 6 6-6"></path></svg></span>
+		<span class="butt" id="undoButton" aria-label="復原"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 8-4 4 4 4"></path><path d="M5 12h9a5 5 0 1 1 0 10h-2"></path></svg></span>
     </div>
 
 	<div id="navi-container">
-		<span class="butt" id="hintButton">💡</span>
-		<span class="butt" id="settingButton">⚙️</span>
+		<span class="butt" id="hintButton" aria-label="提示"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M12 2a6 6 0 0 0-3 11v2h6v-2a6 6 0 0 0-3-11Z"></path></svg></span>
+		<span class="butt" id="settingButton" aria-label="設定"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></span>
 		<span id="spanDoneCount">-</span>
-		<span class="butt" id="downloadButton">💾</span>
+		<span class="butt" id="downloadButton" aria-label="下載"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v10"></path><path d="m8 10 4 4 4-4"></path><path d="M4 20h16"></path></svg></span>
     </div>
 	<div id="progress-container">
 		<progress id="progress-bar" value="0" max="100"></progress>
