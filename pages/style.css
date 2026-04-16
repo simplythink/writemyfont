@@ -109,7 +109,9 @@ canvas { position: absolute; top: 0; left: 0; width: 360px; height: 360px; touch
 #button-container { display: flex; width: 360px; gap: 8px; justify-content: space-between }
 #button-container span.butt { padding: 0; border: 1px solid rgba(60, 60, 67, 0.16); font-size: 28px; box-shadow: none; line-height: 1.1; width: 48px; height: 48px; border-radius: 14px; }
 
-#list-container { display: block; position: fixed; top: 0; left: 0; width: 100%; justify-content: center; background: rgba(249, 249, 252, 0.76); backdrop-filter: blur(22px) saturate(1.45); -webkit-backdrop-filter: blur(22px) saturate(1.45); border-bottom: 1px solid rgba(60, 60, 67, 0.14); padding: calc(10px + env(safe-area-inset-top)) 10px 10px 10px; text-align: center; z-index: 10; box-sizing: border-box; }
+#list-container { display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center; justify-content: center; gap: 6px; position: fixed; top: 0; left: 0; width: 100%; background: rgba(249, 249, 252, 0.76); backdrop-filter: blur(22px) saturate(1.45); -webkit-backdrop-filter: blur(22px) saturate(1.45); border-bottom: 1px solid rgba(60, 60, 67, 0.14); padding: calc(10px + env(safe-area-inset-top)) max(10px, env(safe-area-inset-left)) 10px max(10px, env(safe-area-inset-right)); text-align: center; z-index: 10; box-sizing: border-box; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
+#list-container #listSelect { flex-shrink: 0; }
+#list-container .butt { flex-shrink: 0; }
 
 #navi-container { display: flex; gap: 12px; position: fixed; bottom: 0; left: 0; width: 100%; justify-content: center; background: rgba(249, 249, 252, 0.8); backdrop-filter: blur(22px) saturate(1.45); -webkit-backdrop-filter: blur(22px) saturate(1.45); border-top: 1px solid rgba(60, 60, 67, 0.14); padding: 10px 10px calc(10px + env(safe-area-inset-bottom)) 10px; z-index: 10; box-sizing: border-box; }
 #navi-container #spanDoneCount { padding-top: 11px; color: #8e8e93; width: 3em; text-align: center; font-weight: 600; }

@@ -287,7 +287,7 @@ function initListSelect($listSelect) {
 	$listSelect.empty(); // 清空選單
 	for (var list in glyphList) {
 		$listSelect.append(
-			$('<option></option>').val(list).text(list)
+			$('<option></option>').val(list).text('字表：' + list)
 		);
 	}
 }
