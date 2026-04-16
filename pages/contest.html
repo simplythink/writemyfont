@@ -4,58 +4,77 @@
     <title>第一屆基礎字造句大賽</title>
     <style>
         body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
+            background: linear-gradient(180deg, #f7f8fb 0%, #eef1f6 100%);
+            color: #1c1c1e;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang TC", "PingFang SC", sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 28px 18px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
+            box-sizing: border-box;
         }
 
-		h1 { text-align: center;}
+		h1 { text-align: center; margin: 0 0 18px 0; line-height: 1.25; }
 
         input {
-            width: 90%;
-            max-width: 400px;
-            padding: 10px;
-            font-size: 1em;
-            margin-bottom: 20px;
-            border: none;
-            border-radius: 5px;
-			background: #444;
-			color: #eee;
+            width: min(92%, 460px);
+            padding: 12px 14px;
+            font-size: 1.05em;
+            margin-bottom: 16px;
+            border: 1px solid rgba(60, 60, 67, 0.18);
+            border-radius: 14px;
+			background: rgba(255, 255, 255, 0.96);
+			color: #1c1c1e;
 			text-align: center;
+            box-shadow: none;
+        }
+
+        #postButton {
+            border: 0;
+            border-radius: 14px;
+            padding: 12px 18px;
+            margin-bottom: 16px;
+            background: #0a84ff;
+            color: #fff;
+            font-size: 1em;
+            font-weight: 600;
+            box-shadow: none;
+        }
+
+        #postButton:disabled {
+            background: #b8bcc6;
+            box-shadow: none;
         }
 
         .output {
-            width: 90%;
-            max-width: 400px;
+            width: min(92%, 460px);
             word-wrap: break-word;
-            font-size: 1.5em;
-			min-height: 3.5em; /* 固定高度，避免跳動 */
+            font-size: 1.45em;
+			min-height: 3.4em;
 			text-align: center;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(60, 60, 67, 0.15);
+            box-shadow: none;
+            padding: 12px 14px;
+            box-sizing: border-box;
         }
 
         #reference {
-            background-color: #1e1e1e;
-            border: 1px solid #333;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 20px;
+            margin-top: 14px;
 			font-size: 1em;
-            color: #888; /* 預設灰色字 */
+            color: #8e8e93;
         }
 
         span.in-range {
-            color: #4caf50; /* 藍色系 */
+            color: #0a84ff;
         }
 
         .out-of-range {
-            color: #f44336; /* 紅色系 */
+            color: #ff453a;
         }
     </style>
     <script src="cglyphlist.js"></script>
