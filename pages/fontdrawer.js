@@ -287,9 +287,12 @@ function initListSelect($listSelect) {
 	$listSelect.empty(); // 清空選單
 	for (var list in glyphList) {
 		$listSelect.append(
-			$('<option></option>').val(list).text('字表：' + list)
+			textList(list)
 		);
 	}
+}
+function textList(text) {
+	return $('<option></option>').val(text).text(text);
 }
 
 function normalizeGlyphName(gn) {
