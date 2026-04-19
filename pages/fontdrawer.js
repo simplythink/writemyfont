@@ -146,6 +146,7 @@ async function loadSettings() {
 		brushType: await loadFromDB('brushType', 0) * 1, 					// 筆刷類型，預設為 0
 		pressureMode: await loadFromDB('pressureMode', 'N') == 'Y',			// 筆壓模式，預設為 N
 		pressureEffect: await loadFromDB('pressureEffect', 'none'),			// 筆壓公式，預設為 none
+		pressureThreshold: await loadFromDB('pressureThreshold', 5) * 1,	// 筆壓門檻值（百分比，0-30），低於此值會被忽略，避免抬筆瞬間留下殘點
 		penAngleMode: await loadFromDB('penAngleMode', 'N') == 'Y',			// 筆傾斜模式，預設為 N 
 		gridType: await loadFromDB('gridType', '3x3grid'),					// 格線類型，預設為 3x3grid
 		oldPressureMode: await loadFromDB('oldPressureMode', 'N') == 'Y',	// 啟用舊版筆壓模式，預設為 N
@@ -815,7 +816,12 @@ $(document).ready(async function () {
 		let isRealPressure = typeof(pressure) != 'undefined';
 		if (isRealPressure && toolType != 'pen' && pressure == 0) isRealPressure = false;
 		if (isRealPressure && toolType != 'pen' && !hasRealPressure && (pressure == 1 || pressure == 0.5)) isRealPressure = false;
-		if (toolType == 'pen' && pressure < 0.01) return null;
+		// 筆壓門檻值：低於門檻時忽略此筆事件，避免抬筆瞬間殘點
+		// 預設對 pen 套用門檻；其他指標型態若有真實筆壓也套用
+		let threshold = (settings.pressureThreshold || 0) / 100;
+		if (threshold < 0.01) threshold = 0.01;	// 維持原有最低保護
+		if (toolType == 'pen' && typeof(pressure) != 'undefined' && pressure < threshold) return null;
+		if (toolType != 'pen' && isRealPressure && pressure < threshold) return null;
 		if (mode != 'start' && !simulatePressure && !isRealPressure) return null;
 
 		if (isRealPressure) {
@@ -1309,6 +1315,8 @@ $(document).ready(async function () {
 		$('#scaleRateValue').text(scale + '%');
 
 		$('#pressureEffectSelect').val(settings.pressureEffect);
+		$('#pressureThresholdSlider').val(settings.pressureThreshold);
+		$('#pressureThresholdValue').text(settings.pressureThreshold + '%');
 		$('#penAngleMode').prop('checked', settings.penAngleMode);
 		$('#pressureDrawingEnabled').prop('checked', settings.oldPressureMode);
 		$('#gridTypeSelect').val(settings.gridType);
@@ -1335,6 +1343,11 @@ $(document).ready(async function () {
 		initCanvas(canvas);
 	});
 	$('#pressureEffectSelect').change(function () { updateSetting('pressureEffect', $(this).val()); });
+	$('#pressureThresholdSlider').on('input', function () {
+		var v = parseInt($(this).val(), 10);
+		$('#pressureThresholdValue').text(v + '%');
+		updateSetting('pressureThreshold', v);
+	});
 	$('#penAngleMode').on('click', function () { updateSetting('penAngleMode', $(this).prop('checked')); });
 	$('#gridTypeSelect').change(function () { 
 		updateSetting('gridType', $(this).val());
