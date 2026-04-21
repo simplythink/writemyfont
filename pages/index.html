@@ -149,9 +149,9 @@
 			<span class="note">本選項僅對有筆壓的設備有效。目前尚在調整中，未來修改可能無法維持舊版相容性。</span>
 
 			<h3>筆壓門檻值</h3>
-			<input id="pressureThresholdSlider" type="range" min="0" max="30" step="1" value="5" />
-			<span id="pressureThresholdValue">5%</span>
-			<span class="note">當觸控筆抬離螢幕時容易留下殘點或殘線，調高此值可過濾掉低筆壓的雜訊事件。若您的筆會在抬筆瞬間留下不該有的點，請試著將此值往上調。</span>
+			<input id="pressureThresholdSlider" type="range" min="0" max="50" step="1" value="10" />
+			<span id="pressureThresholdValue">10%</span>
+			<span class="note">當觸控筆抬離螢幕時容易留下殘點或殘線，本設定會過濾掉低於指定筆壓的事件。若您的筆抬筆瞬間還是會留下殘點，請將此值往上調；若您發現輕筆畫的起筆或收尾被吃掉，請將此值往下調。設為 0% 則完全關閉此過濾。</span>
 
 			<h3>啟用觸控筆傾斜角</h3>
 			<input id="penAngleMode" type="checkbox" />
